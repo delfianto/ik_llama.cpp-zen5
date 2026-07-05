@@ -1,4 +1,4 @@
-FROM nvidia/cuda:12.6.0-devel-ubuntu24.04 AS builder
+FROM nvidia/cuda:13.3.0-devel-ubuntu24.04 AS builder
 
 ENV DEBIAN_FRONTEND=noninteractive
 
@@ -43,7 +43,7 @@ RUN cmake --build build --config Release -j $(nproc)
 
 # Final runtime image
 # (Using ubuntu24.04 base for the runtime to ensure rock-solid stability with latest CUDA)
-FROM nvidia/cuda:12.6.0-runtime-ubuntu24.04
+FROM nvidia/cuda:13.3.0-runtime-ubuntu24.04
 
 ENV DEBIAN_FRONTEND=noninteractive
 
