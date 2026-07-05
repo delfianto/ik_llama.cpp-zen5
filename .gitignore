@@ -7,3 +7,5 @@
 !README.md
 !.github/
 !.github/**/*
+!Dockerfile
+!entrypoint.sh
