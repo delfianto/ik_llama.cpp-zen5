@@ -51,6 +51,9 @@ prepare() {
   # Get the latest commit hash
   _commit_id=$(git rev-parse HEAD)
   _build_number=$(git rev-list --count HEAD)
+  
+  # Patch rpc-server for updated ggml_backend_cuda_init signature
+  sed -i 's/ggml_backend_cuda_init(device, nullptr)/ggml_backend_cuda_init(device, nullptr, nullptr)/g' examples/rpc/rpc-server.cpp
   cd ..
 
   ln -sf "${_pkgname}" llama.cpp

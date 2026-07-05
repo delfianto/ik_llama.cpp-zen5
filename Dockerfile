@@ -18,7 +18,8 @@ WORKDIR /app
 
 # Clone the bleeding edge ik_llama.cpp
 RUN git clone https://github.com/ikawrakow/ik_llama.cpp.git . && \
-    sed -i 's/get_flags(${CUDA_CCID} ${CUDA_CCVER})/if(CUDA_CCVER)\nget_flags(${CUDA_CCID} ${CUDA_CCVER})\nelse()\nget_flags(${CUDA_CCID} 13.0.0)\nendif()/g' ggml/src/CMakeLists.txt
+    sed -i 's/get_flags(${CUDA_CCID} ${CUDA_CCVER})/if(CUDA_CCVER)\nget_flags(${CUDA_CCID} ${CUDA_CCVER})\nelse()\nget_flags(${CUDA_CCID} 13.0.0)\nendif()/g' ggml/src/CMakeLists.txt && \
+    sed -i 's/ggml_backend_cuda_init(device, nullptr)/ggml_backend_cuda_init(device, nullptr, nullptr)/g' examples/rpc/rpc-server.cpp
 
 # Build with extreme optimizations (Zen 5 + RTX 30/40/50)
 RUN cmake -B build -G Ninja \
