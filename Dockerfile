@@ -12,6 +12,7 @@ RUN apt-get update && apt-get install -y \
     curl \
     libcurl4-openssl-dev \
     libssl-dev \
+    libnccl-dev \
     ninja-build \
     pkg-config \
     && rm -rf /var/lib/apt/lists/*
@@ -58,6 +59,7 @@ RUN apt-get update && apt-get install -y \
     libcurl4 \
     libssl3 \
     libgomp1 \
+    libnccl2 \
     curl \
     && rm -rf /var/lib/apt/lists/*
 
