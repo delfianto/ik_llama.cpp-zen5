@@ -1,0 +1,44 @@
+name: Build Arch Package
+
+on:
+  push:
+    branches: [ main, master ]
+  workflow_dispatch:
+  schedule:
+    - cron: '0 0 * * *'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    container:
+      image: archlinux:latest
+
+    steps:
+    - name: Checkout Code
+      uses: actions/checkout@v4
+
+    - name: Update system and install dependencies
+      run: |
+        pacman -Syu --noconfirm
+        # We pre-install some of the heavier dependencies directly to speed up makepkg's sync
+        pacman -S --noconfirm base-devel git cmake cuda curl nvidia-utils nccl openssl
+      
+    - name: Prepare build environment
+      run: |
+        # makepkg absolutely refuses to run as root. We need to create a dedicated builder user.
+        useradd -m -G wheel builder
+        echo "builder ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
+        # Give the builder user ownership of the cloned workspace
+        chown -R builder:builder $GITHUB_WORKSPACE
+
+    - name: Build Package
+      run: |
+        # Run makepkg as our unprivileged user. -s syncs any remaining deps, --noconfirm skips prompts.
+        su builder -c "cd $GITHUB_WORKSPACE && makepkg -s --noconfirm"
+
+    - name: Upload Artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: ik-llama.cpp-zen5-pkg
+        path: ./*.pkg.tar.zst
+        retention-days: 7

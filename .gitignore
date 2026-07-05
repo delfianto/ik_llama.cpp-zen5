@@ -5,3 +5,5 @@
 !llama.cpp.conf
 !llama.cpp.service
 !README.md
+!.github/
+!.github/**/*
