@@ -42,6 +42,7 @@ RUN cmake -B build -G Ninja \
     -DGGML_AVX512_VNNI=ON \
     -DGGML_AVX512_BF16=ON \
     -DGGML_NATIVE=OFF \
+    -DGGML_NCCL=ON \
     -DCMAKE_CUDA_ARCHITECTURES="86;89;90" \
     -DCMAKE_C_FLAGS="-O3 -march=znver5 -mtune=znver5" \
     -DCMAKE_CXX_FLAGS="-O3 -march=znver5 -mtune=znver5"

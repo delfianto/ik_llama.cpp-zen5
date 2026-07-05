@@ -89,6 +89,7 @@ build() {
     -DLLAMA_BUILD_NUMBER="${_build_number}"
     -DLLAMA_BUILD_COMMIT="${_commit_id}"
     -DLLAMA_OPENSSL=ON
+    -DGGML_NCCL=ON
     -Wno-dev
   )
 
