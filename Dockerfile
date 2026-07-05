@@ -5,6 +5,8 @@ ENV DEBIAN_FRONTEND=noninteractive
 # Install build dependencies
 RUN apt-get update && apt-get install -y \
     build-essential \
+    gcc-14 \
+    g++-14 \
     cmake \
     git \
     curl \
@@ -23,6 +25,8 @@ RUN git clone https://github.com/ikawrakow/ik_llama.cpp.git . && \
 
 # Build with extreme optimizations (Zen 5 + RTX 30/40/50)
 RUN cmake -B build -G Ninja \
+    -DCMAKE_C_COMPILER=gcc-14 \
+    -DCMAKE_CXX_COMPILER=g++-14 \
     -DCMAKE_BUILD_TYPE=Release \
     -DBUILD_SHARED_LIBS=OFF \
     -DLLAMA_USE_SYSTEM_GGML=OFF \
